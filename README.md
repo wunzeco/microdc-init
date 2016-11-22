@@ -11,27 +11,27 @@ Microdc Tools Init
     - This file should contain a valid ssh private key that can be used to clone
 infra code git repos.
 3. Build docker image
-**Note:** Some jenkins plugins may fail to download at first attempt. So you may
-need to run `docker build` command multiple times.
-```
-docker build -t microdc-jenkins .
-```
+    ```
+    docker build -t microdc-jenkins .
+    ```
+	**Note:** Some jenkins plugins may fail to download at first attempt. So
+	you may need to run `docker build` command multiple times.
 4. Run jenkins container
-```
-docker run --rm -p 8080:8080 -p 50000:50000 -v $(pwd)/ssh:/var/jenkins\_home/.ssh --name microdc microdc-jenkins
-```
+    ```
+    docker run --rm -p 8080:8080 -p 50000:50000 -v $(pwd)/ssh:/var/jenkins\_home/.ssh --name microdc microdc-jenkins
+    ```
 5. Create jenkins ssh creds config
-```
-export JENKINS_HOST='192.168.99.100:8080'
-python create-credentials-config-v2.py ssh-private-key \
-        -I ci-user-git-creds-id -D ci-user-git-creds \
-        -U ci-user -F /var/jenkins_home/.ssh/microdc-ci.pem
-```
+    ```
+    export JENKINS_HOST='192.168.99.100:8080'
+    python create-credentials-config-v2.py ssh-private-key \
+            -I ci-user-git-creds-id -D ci-user-git-creds \
+            -U ci-user -F /var/jenkins_home/.ssh/microdc-ci.pem
+    ```
 6. Create jenkins jobs
-```
-cd job-dsl/
-./gradlew rest -Dpattern=jobs/infraJobs.groovy -DbaseUrl=http://$JENKINS_HOST/
-```
+    ```
+    cd job-dsl/
+    ./gradlew rest -Dpattern=jobs/infraJobs.groovy -DbaseUrl=http://$JENKINS_HOST/
+    ```
 
 ## ToDo
 - ssh-config
