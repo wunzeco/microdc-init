@@ -14,8 +14,8 @@ infra code git repos.
 ```
 docker build -t microdc-jenkins .
 ```
-> Note: Some jenkins plugins may fail to download at first attempt. So you may
->      need to run `docker build` command multiple times.
+**Note:** Some jenkins plugins may fail to download at first attempt. So you may
+      need to run `docker build` command multiple times.
 4. Run jenkins container
 ```
 docker run --rm -p 8080:8080 -p 50000:50000 -v $(pwd)/ssh:/var/jenkins\_home/.ssh --name microdc microdc-jenkins
