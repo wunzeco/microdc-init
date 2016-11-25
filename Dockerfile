@@ -50,7 +50,8 @@ RUN /usr/local/bin/install-plugins.sh \
             workflow-durable-task-step workflow-job workflow-multibranch \
             workflow-scm-step workflow-step-api workflow-support
 
+# WARNING: Any changes to jenkins home dir (/var/jenkins_home) will be discarded
+#          post build. This is because /var/jenkins_home is declared as a 
+#          VOLUME in the base image. This is why the config below won't work!!!
 # Start ssh-agent and Add private keys to ssh-agent
-# For some reason this config cannot be found on a running container. hmm...Why?
-# Perhaps config .profile via a job or use ssh-agent plugin
 #RUN echo 'eval $(ssh-agent -s)  &&  ssh-add $HOME/.ssh/*.pem' >> /var/jenkins_home/.profile
