@@ -3,13 +3,13 @@ FROM jenkins:2.19.2
 # if we want to install via apt
 USER root
 RUN apt-get update && \
-    apt-get install -y ruby build-essential ansible python-pip jq unzip \
-	                   bison zlib1g-dev libssl-dev libxml2-dev 			\
-                       gawk libreadline6-dev libyaml-dev libsqlite3-dev \
+    apt-get install -y ruby build-essential python-dev python-pip jq \
+	                   gawk bison zlib1g-dev libssl-dev libxml2-dev  \
+                       libreadline6-dev libyaml-dev libsqlite3-dev   \
 					   sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev \
-					   automake libtool pkg-config libffi-dev
+					   unzip automake libtool pkg-config libffi-dev
 
-RUN pip install awscli
+RUN pip install -U cffi awscli ansible==2.1.0.0
 
 ENV TERRAFORM_VERSION 0.7.11
 RUN wget -O /var/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -44,7 +44,7 @@ RUN /usr/local/bin/install-plugins.sh \
             pipeline-graph-analysis pipeline-input-step \
             pipeline-milestone-step pipeline-rest-api \
             pipeline-stage-step pipeline-stage-view plain-credentials rebuild \
-            scm-api script-security ssh-agent ssh-credentials structs \
+            scm-api script-security slack ssh-agent ssh-credentials structs \
             token-macro workflow-aggregator workflow-api \
             workflow-basic-steps workflow-cps workflow-cps-global-lib \
             workflow-durable-task-step workflow-job workflow-multibranch \

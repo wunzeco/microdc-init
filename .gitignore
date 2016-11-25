@@ -1,3 +1,4 @@
 ssh/*.pem
 ssh/known_hosts
 stories
+ansible/*.pass

@@ -11,6 +11,10 @@ Microdc Tools Init
 2. Ensure ssh directory contains microdc-ci.pem file with 0700 permission. 
     - This file should contain a valid ssh private key that can be used to clone
 infra code git repos.
+    - ...and used for ansible login.
+
+2. Create microdc-vault.pass file and store ansible-vault password in it
+`echo 'YourVaultPass' > microdc-vault.pass`
 
 3. Build docker image
 
@@ -18,13 +22,16 @@ infra code git repos.
     docker build -t microdc-jenkins .
     ```
 
-	**Note:** Some jenkins plugins may fail to download at first attempt. So
-	you may need to run `docker build` command multiple times.
+	**Note:** Some jenkins plugins (esp github) may fail to download at first
+	attempt. So you may need to run `docker build` command multiple times.
 
 4. Run jenkins container
 
     ```
-    docker run --rm -p 8080:8080 -p 50000:50000 -v $(pwd)/ssh:/var/jenkins\_home/.ssh --name microdc microdc-jenkins
+    docker run -d -p 8080:8080 -p 50000:50000  \
+        -v $(pwd)/ssh:/var/jenkins\_home/.ssh  \
+        -v $(pwd)/ansible:/var/jenkins\_home/.ansible \
+        --name microdc microdc-jenkins
     ```
 
 5. Create jenkins ssh creds config
