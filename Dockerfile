@@ -38,7 +38,7 @@ ENV  JAVA_OPTS "-Djenkins.install.runSetupWizard=false"
 # Install jenkins plugins
 RUN /usr/local/bin/install-plugins.sh \
             ace-editor ansicolor bouncycastle-api branch-api cloudbees-folder \
-            credentials display-url-api durable-task git git-client \
+            credentials display-url-api durable-task envinject git git-client \
             git-server github github-api handlebars jquery-detached \
             junit mailer matrix-project momentjs pipeline-build-step \
             pipeline-graph-analysis pipeline-input-step \
