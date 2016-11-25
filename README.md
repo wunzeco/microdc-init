@@ -40,6 +40,10 @@ infra code git repos.
     export JENKINS_HOST='192.168.99.100:8080'
     python create-credentials-config-v2.py ssh-private-key \
             -I ci-user-git-creds-id -D ci-user-git-creds \
+            -U ci-user -F /var/jenkins_home/.ssh/microdc-ci-git.pem
+
+    python create-credentials-config-v2.py ssh-private-key \
+            -I ci-user-ansible-creds-id -D ci-user-ansible-creds \
             -U ci-user -F /var/jenkins_home/.ssh/microdc-ci.pem
     ```
 
