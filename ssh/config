@@ -1,0 +1,28 @@
+ServerAliveInterval 60
+ServerAliveCountMax 5
+TCPKeepAlive no
+StrictHostKeyChecking no
+UserKnownHostsFile /dev/null
+
+####################################
+##	MicroDC
+####################################
+
+# TOOLS - Microdc
+Host bastion.tools.microdc.equalexperts.io
+  ForwardAgent yes
+  User ubuntu
+
+Host *.tools.microdc.internal
+  ProxyCommand ssh bastion.tools.microdc.equalexperts.io nc %h %p
+  #IdentityFile ~/.ssh/microdc-ci.pem
+  User ubuntu
+
+# DEV - Microdc
+Host bastion.dev.microdc.equalexperts.io
+  ForwardAgent yes
+  User ubuntu
+
+Host *.dev.microdc.internal
+  ProxyCommand ssh bastion.dev.microdc.equalexperts.io nc %h %p
+  User ubuntu
