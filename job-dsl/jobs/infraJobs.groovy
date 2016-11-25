@@ -41,3 +41,52 @@ def toolsDslRepo    = 'ee-microdc-tools'
         }
     }
 }
+
+
+/*
+    module build job
+*/
+job("microdc-infra-state-s3-bucket") {
+    description("Creates s3 bucket for microdc infra state")
+    parameters {
+        stringParam('AWS_DEFAULT_REGION', defaultValue = 'eu-west-1', 
+                    description = 'AWS Default Region')
+        stringParam('AWS_ACCESS_KEY_ID', defaultValue = '', 
+                    description = 'AWS Access Key ID')
+        stringParam('AWS_SECRET_ACCESS_KEY', defaultValue = '', 
+                    description = 'AWS Secret Key')
+    }         
+    scm {
+        git {
+            remote {
+                github("EqualExperts/${rakeScriptsRepo}", 'ssh')
+                credentials("ci-user-git-creds-id")
+            }
+            branch('master')
+        }
+    }
+    steps {
+        environmentVariables {
+            env('AWS_ACCESS_KEY_ID',     '\$AWS_ACCESS_KEY_ID')
+            env('AWS_SECRET_ACCESS_KEY', '\$AWS_SECRET_ACCESS_KEY')
+            env('AWS_DEFAULT_REGION',    '\$AWS_DEFAULT_REGION')
+            env('DC_PRODUCT',            'microdc')
+            env('DC_CATEGORY',           'microdc')
+            env('DC_BUCKET_NAME',        'microdc-infra')
+            env('DC_RAKE_SCRIPTS_PATH',  "\$WORKSPACE/${rakeScriptsRepo}")
+            env('DC_CREATE_IF_NOT_EXIST', 'true')
+        }
+        shell(
+            """
+            #!/bin/bash
+            source /etc/profile.d/rvm.sh &> /dev/null
+            cd \$DC_RAKE_SCRIPTS_PATH
+            gem install bundler && bundle install && rake tf:create_bucket
+            """.stripIndent().trim()
+            )
+    }
+    wrappers {
+        colorizeOutput()
+    }
+}
+
