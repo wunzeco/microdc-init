@@ -9,7 +9,7 @@ RUN apt-get update && \
 					   sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev \
 					   unzip automake libtool pkg-config libffi-dev
 
-RUN pip install -U cffi awscli ansible==2.1.0.0
+RUN pip install -U cffi awscli ansible==2.2.0.0
 
 ENV TERRAFORM_VERSION 0.7.11
 RUN wget -O /var/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
