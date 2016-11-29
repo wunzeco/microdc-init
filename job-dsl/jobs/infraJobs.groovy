@@ -73,7 +73,7 @@ pipelineJob("${product}-infra-global") {
 
 
 /*
-    module build job
+    create s3 bucket job
 */
 job("microdc-infra-state-s3-bucket") {
     description("Creates s3 bucket for microdc infra state")
@@ -119,3 +119,34 @@ job("microdc-infra-state-s3-bucket") {
     }
 }
 
+
+/*
+    remote jenkins jobs config
+*/
+job("microdc-jenkins-jobs-config") {
+    description("Create jobs on remote jenkins")
+    parameters {
+        stringParam('USERNAME', defaultValue = 'microdc-ci', description = 'Remote Jenkins Username')
+        stringParam('PASSWORD', defaultValue = '', description = 'Remote Jenkins Password')
+        stringParam('BASE_URL', defaultValue = 'https://jenkins.tool.microdc.equalexperts.io/', 
+                    description = 'Jenkins Base URL')
+    }         
+    scm {
+        git {
+            remote {
+                github("EqualExperts/ee-microdc-jenkins-job-dsl", 'ssh')
+                credentials("ci-user-git-creds-id")
+            }
+            branch('master')
+        }
+    }
+    steps {
+        gradle {
+            tasks('rest')
+            switches("-Dpattern=jobs/seed.groovy -DbaseUrl=\${BASE_URL} -Dusername=\${USERNAME} -Dpassword='\${PASSWORD}'")
+        }
+    }
+    wrappers {
+        colorizeOutput()
+    }
+}
