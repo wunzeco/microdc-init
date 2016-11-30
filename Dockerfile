@@ -4,17 +4,17 @@ FROM jenkins:2.19.2
 USER root
 RUN apt-get update && \
     apt-get install -y ruby build-essential python-dev python-pip jq \
-	                   gawk bison zlib1g-dev libssl-dev libxml2-dev  \
+                       gawk bison zlib1g-dev libssl-dev libxml2-dev  \
                        libreadline6-dev libyaml-dev libsqlite3-dev   \
-					   sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev \
-					   unzip automake libtool pkg-config libffi-dev
+                       sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev \
+                       unzip automake libtool pkg-config libffi-dev
 
 RUN pip install -U cffi awscli ansible==2.2.0.0
 
 ENV TERRAFORM_VERSION 0.7.11
 RUN wget -O /var/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
          https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-		 unzip /var/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin/
+         unzip /var/tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin/
 
 
 # Install RVM
@@ -23,7 +23,7 @@ RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A170311380
     bash -l -c "rvm install 2.2.3"    && \
     bash -l -c "rvm use 2.2.3@global" && \
     bash -l -c "gem install bundler"
-	
+    
 #bash -l -c "source /etc/profile.d/rvm.sh"
 
 # Allow jenkins user use rvm
