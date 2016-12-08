@@ -128,7 +128,7 @@ job("microdc-jenkins-jobs-config") {
     parameters {
         stringParam('USERNAME', defaultValue = 'microdc-ci', description = 'Remote Jenkins Username')
         stringParam('PASSWORD', defaultValue = '', description = 'Remote Jenkins Password')
-        stringParam('BASE_URL', defaultValue = 'https://jenkins.tool.microdc.equalexperts.io/', 
+        stringParam('BASE_URL', defaultValue = 'https://jenkins.tools.microdc.equalexperts.io/', 
                     description = 'Jenkins Base URL')
     }         
     scm {
